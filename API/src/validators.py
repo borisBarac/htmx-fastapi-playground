@@ -17,9 +17,10 @@ def mac_address_validate(mac: str) -> str:
   """
   pattern = r"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})|([0-9a-fA-F]{4}\\.[0-9a-fA-F]{4}\\.[0-9a-fA-F]{4})$"
   if not re.match(pattern, mac):
-    raise ValueError('given string is not a mac address')
+    raise ValueError("given string is not a mac address")
   else:
     return mac
+
 
 def html_validate(html_str: str) -> str:
   """
@@ -33,7 +34,8 @@ def html_validate(html_str: str) -> str:
   """
   # validates and fixed, does not throw
   html_root = etree.HTML(html_str)
-  return etree.tostring(html_root, encoding='unicode')
+  return etree.tostring(html_root, encoding="unicode")
+
 
 if __name__ == "__main__":
-    pass
+  pass
