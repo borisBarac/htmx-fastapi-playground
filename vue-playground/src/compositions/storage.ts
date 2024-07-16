@@ -1,4 +1,4 @@
-import { useStorage } from '@vueuse/core'
+import { useLocalStorage } from '@vueuse/core'
 import type { CodeLanguages } from '@/consts'
 
 type StoragePath = 'local_storage_json' | 'local_storage_html'
@@ -20,10 +20,16 @@ const useEditorStorage = (lang: CodeLanguages, editorId: string) => {
 
   type EditState = { code: string | null; editorState: string | null }
 
-  const editorStorage = useStorage(editorPath, '')
-  const codeStorage = useStorage(codePath, '')
+  const codeStorage = useLocalStorage<string>(codePath, '')
+  const editorStorage = useLocalStorage<string | null>(editorPath, '')
+
+  const stateIsValid = (state: EditState): boolean => {
+    return (state.code?.length ?? 0 > 0) ? true : false
+  }
 
   const save = (state: EditState): void => {
+    if (stateIsValid(state) === false) return
+
     editorStorage.value = state.editorState
     codeStorage.value = state.code
   }
@@ -32,7 +38,7 @@ const useEditorStorage = (lang: CodeLanguages, editorId: string) => {
     const code = codeStorage.value
     const editState = editorStorage.value
 
-    if (code.length > 0 && editState.length > 0) {
+    if (code.length > 0) {
       return { code, editorState: editState }
     } else {
       return null
