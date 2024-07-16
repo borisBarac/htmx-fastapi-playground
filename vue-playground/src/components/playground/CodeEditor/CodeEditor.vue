@@ -4,8 +4,8 @@ import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import * as monaco from 'monaco-editor'
 
 import { editorTheme, getWorker, initalEditorValue } from './CodeEditor'
-import type { CodeLanguages } from '@/utility/consts'
-import useEditorStorage from '@/utility/storageHook'
+import type { CodeLanguages } from '@/consts'
+import useEditorStorage from '@/compositions/storage'
 
 interface Props {
   language: CodeLanguages
@@ -16,14 +16,14 @@ const props = defineProps<Props>()
 const container = ref<HTMLDivElement | null>(null)
 let editor: monaco.editor.IStandaloneCodeEditor
 
+// https://github.com/vitejs/vite/discussions/1791
 self.MonacoEnvironment = { getWorker: getWorker }
 const emit = defineEmits<(e: 'change', payload: string) => void>()
 
-const editHook = useEditorStorage(props.language, props.editorId)
-
-const getStorageState = () => editHook.get()
-const saveStorageState = (state: { code: string; editorState: string | null }) =>
-  editHook.save(state)
+const { get: getStorageState, save: saveStorageState } = useEditorStorage(
+  props.language,
+  props.editorId
+)
 
 onMounted(() => {
   editor = monaco.editor.create(container.value!, {

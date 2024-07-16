@@ -1,5 +1,5 @@
 import { useStorage } from '@vueuse/core'
-import type { CodeLanguages } from './consts'
+import type { CodeLanguages } from '@/consts'
 
 type StoragePath = 'local_storage_json' | 'local_storage_html'
 

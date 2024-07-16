@@ -2,7 +2,7 @@ import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 import JSONWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import HTMLWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 
-import type { CodeLanguages, MonacoThemesEnum } from '@/utility/consts'
+import type { CodeLanguages, MonacoThemesEnum } from '@/consts'
 
 const editorTheme: MonacoThemesEnum = 'vs-dark'
 
