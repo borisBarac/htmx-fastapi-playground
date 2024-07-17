@@ -1,4 +1,5 @@
 import { useLocalStorage } from '@vueuse/core'
+import { onMounted, onUnmounted } from 'vue'
 import type { CodeLanguages } from '@/consts'
 
 type StoragePath = 'local_storage_json' | 'local_storage_html'
@@ -46,6 +47,37 @@ const useEditorStorage = (lang: CodeLanguages, editorId: string) => {
   }
 
   return { get, save }
+}
+
+type ChangeListener = ((timeCalled: number, state?: string) => void) | null
+
+const watchStorage = (
+  lang: CodeLanguages,
+  editorId: string,
+  checkEverySeconds: number,
+  changeListener: ChangeListener
+) => {
+  const codePath = codeStoragePathFor(lang) + '_' + editorId
+  const codeStorage = useLocalStorage<string>(codePath, '')
+
+  let interval: NodeJS.Timeout
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let lastCheckTime: number
+  let lastUpdateStr: string | null
+
+  onMounted(() => {
+    interval = setInterval(() => {
+      if (codeStorage.value === lastUpdateStr) return
+
+      lastUpdateStr = codeStorage.value
+      lastCheckTime = new Date().getTime()
+      changeListener?.(lastCheckTime, lastUpdateStr)
+    }, checkEverySeconds * 1000)
+  })
+  onUnmounted(() => {
+    // Don't forget to remove the interval before destroying the component
+    clearInterval(interval)
+  })
 }
 
 export default useEditorStorage
