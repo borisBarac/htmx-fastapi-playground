@@ -1,6 +1,12 @@
 export type MonacoThemesEnum = 'vs-dark' | 'vs'
 export type CodeLanguages = 'json' | 'html'
 
+export const CodeLangApiParamMap: Record<CodeLanguages, string> = {
+  json: 'template_state_base64',
+  html: 'template_html_base64'
+} as const
+export type CallType = (typeof CodeLangApiParamMap)[keyof typeof CodeLangApiParamMap]
+
 export enum ProviderEvents {
   Reload = 'ProviderEventsReloadEvent'
 }

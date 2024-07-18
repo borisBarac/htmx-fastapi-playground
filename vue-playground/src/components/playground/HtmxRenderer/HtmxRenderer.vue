@@ -1,23 +1,32 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue'
 import { watchDebounced } from '@vueuse/core'
+import { useStorageToGetUrl, type TupleArray } from './HtmxRenderer'
 
 interface Props {
   urlEventKey: string
   minSecDebounce: number
   maxSecDebounce: number
+  editorItems: TupleArray | undefined
 }
 const props = defineProps<Props>()
-const iFrameUrl: any = inject(props.urlEventKey)
+const urlChangeEventKey: any = inject(props.urlEventKey)
 
 var deboundedUrl = ref('')
 var reloadCount = ref(0)
 
+const reloadIframe = () => {
+  if (props.editorItems?.length ?? 0 < 2) return
+  const newUrl = useStorageToGetUrl(props.editorItems!)
+  deboundedUrl.value = newUrl
+}
+
 watchDebounced(
-  iFrameUrl,
+  urlChangeEventKey,
   () => {
     reloadCount.value = reloadCount.value + 1
-    deboundedUrl.value = iFrameUrl.value
+    // put correct url here
+    deboundedUrl.value = urlChangeEventKey.value
   },
   { debounce: props.minSecDebounce * 1000, maxWait: props.maxSecDebounce * 1000 }
 )

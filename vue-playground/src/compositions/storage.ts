@@ -1,4 +1,4 @@
-import { useLocalStorage } from '@vueuse/core'
+import { useLocalStorage, type RemovableRef } from '@vueuse/core'
 import { onMounted, onUnmounted } from 'vue'
 import type { CodeLanguages } from '@/consts'
 
@@ -80,4 +80,9 @@ const useWatchEditorStorage = (
   })
 }
 
-export { useEditorStorage, useWatchEditorStorage }
+const useLocalStorageRef = (lang: CodeLanguages, editorId: string): RemovableRef<string> => {
+  const codePath = codeStoragePathFor(lang) + '_' + editorId
+  return useLocalStorage<string>(codePath, '')
+}
+
+export { useEditorStorage, useWatchEditorStorage, useLocalStorageRef }

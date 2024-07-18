@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HtmxRenderer from './components/playground/HtmxRenderer.vue'
+import HtmxRenderer from './components/playground/HtmxRenderer/HtmxRenderer.vue'
 import { ProviderEvents } from './consts'
 
 import { ref, provide } from 'vue'
@@ -18,6 +18,7 @@ provide(ProviderEvents.Reload, bind_val)
     :urlEventKey="ProviderEvents.Reload"
     :minSecDebounce="1"
     :maxSecDebounce="5"
+    :editorItems="undefined"
   />
 </template>
 
