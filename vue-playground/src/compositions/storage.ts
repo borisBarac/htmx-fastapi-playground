@@ -51,7 +51,7 @@ const useEditorStorage = (lang: CodeLanguages, editorId: string) => {
 
 type ChangeListener = ((timeCalled: number, state?: string) => void) | null
 
-const watchStorage = (
+const useWatchEditorStorage = (
   lang: CodeLanguages,
   editorId: string,
   checkEverySeconds: number,
@@ -80,4 +80,4 @@ const watchStorage = (
   })
 }
 
-export default useEditorStorage
+export { useEditorStorage, useWatchEditorStorage }
