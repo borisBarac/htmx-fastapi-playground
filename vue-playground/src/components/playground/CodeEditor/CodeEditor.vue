@@ -5,7 +5,7 @@ import * as monaco from 'monaco-editor'
 
 import { editorTheme, getWorker, initalEditorValue } from './CodeEditor'
 import type { CodeLanguages } from '@/consts'
-import useEditorStorage from '@/compositions/storage'
+import { useEditorStorage } from '@/compositions/storage'
 
 interface Props {
   language: CodeLanguages

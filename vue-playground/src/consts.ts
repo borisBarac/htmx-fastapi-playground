@@ -1,5 +1,6 @@
 export type MonacoThemesEnum = 'vs-dark' | 'vs'
 export type CodeLanguages = 'json' | 'html'
+export type PanelType = 'editor' | 'preview'
 
 export const CodeLangApiParamMap: Record<CodeLanguages, string> = {
   json: 'template_state_base64',

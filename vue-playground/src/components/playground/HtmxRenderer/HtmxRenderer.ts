@@ -5,7 +5,8 @@ import { getMAC, mergeRecords } from '@/utilities/helper'
 import { buldWebPathFor, Endpoints, IframeRoute } from '@/utilities/urlBuilder'
 import { assert } from 'console'
 
-export type TupleArray = [CodeLanguages, string][]
+export type TupleArray = Array<[CodeLanguages, string]>
+export const initUrl = buldWebPathFor(IframeRoute(Endpoints.root, {}))
 
 const useStorageToGetUrl = (items: TupleArray): string => {
   const encodedValues = items.map((item) => {

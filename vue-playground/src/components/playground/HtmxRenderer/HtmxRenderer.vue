@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue'
 import { watchDebounced } from '@vueuse/core'
-import { useStorageToGetUrl, type TupleArray } from './HtmxRenderer'
+import { initUrl, useStorageToGetUrl, type TupleArray } from './HtmxRenderer'
 
 interface Props {
   urlEventKey: string
@@ -12,7 +12,7 @@ interface Props {
 const props = defineProps<Props>()
 const urlChangeEventKey: any = inject(props.urlEventKey)
 
-var deboundedUrl = ref('')
+var deboundedUrl = ref(initUrl)
 var reloadCount = ref(0)
 
 const reloadIframe = () => {
@@ -25,8 +25,9 @@ watchDebounced(
   urlChangeEventKey,
   () => {
     reloadCount.value = reloadCount.value + 1
-    // put correct url here
-    deboundedUrl.value = urlChangeEventKey.value
+
+    //TODO: Enamble hot reload
+    // reloadIframe()
   },
   { debounce: props.minSecDebounce * 1000, maxWait: props.maxSecDebounce * 1000 }
 )
