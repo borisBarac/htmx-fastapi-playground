@@ -60,13 +60,13 @@ const useWatchEditorStorage = (
   const codePath = codeStoragePathFor(lang) + '_' + editorId
   const codeStorage = useLocalStorage<string>(codePath, '')
 
-  let interval: NodeJS.Timeout
+  let timeout: any
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let lastCheckTime: number
   let lastUpdateStr: string | null
 
   onMounted(() => {
-    interval = setInterval(() => {
+    timeout = setTimeout(() => {
       if (codeStorage.value === lastUpdateStr) return
 
       lastUpdateStr = codeStorage.value
@@ -76,7 +76,7 @@ const useWatchEditorStorage = (
   })
   onUnmounted(() => {
     // Don't forget to remove the interval before destroying the component
-    clearInterval(interval)
+    clearTimeout(timeout)
   })
 }
 

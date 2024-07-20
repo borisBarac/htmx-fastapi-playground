@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.11.0",
+    "buffer": "^6.0.3",
     "monaco-editor": "^0.50.0",
     "primevue": "^4.0.0",
     "vue": "^3.4.29"
