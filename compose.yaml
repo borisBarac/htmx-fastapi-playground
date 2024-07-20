@@ -1,0 +1,12 @@
+services:
+  htmx_api:
+    build: ./API
+    ports:
+      - "8000:8000"
+  vue_app:
+    build: ./vue-playground
+    ports:
+      - "5173:5173"
+
+# docker run -p 5173:5173 vue-playground-app
+
