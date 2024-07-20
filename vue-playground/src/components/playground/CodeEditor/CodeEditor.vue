@@ -25,29 +25,36 @@ const { get: getStorageState, save: saveStorageState } = useEditorStorage(
   props.editorId
 )
 
+const loadCodeFromStorage = () => {
+  const initCode = initalEditorValue(props.language)
+  const currentCode = getStorageState()?.code ?? initCode
+  editor.setValue(currentCode)
+}
+
+const saveCodeAndEmitChange = () => {
+  const current = getStorageState()
+  if (current?.code !== editor.getValue()!) {
+    saveStorageState({ code: editor.getValue(), editorState: null })
+    emit('change', editor.getValue())
+  }
+}
+
 onMounted(() => {
   editor = monaco.editor.create(container.value!, {
     language: props.language,
     theme: editorTheme
   })
 
-  emit('change', getStorageState()?.code ?? initalEditorValue(props.language))
+  emit('change', getStorageState()?.code ?? '')
 
   editor.onDidChangeModelContent(
     // we update the values in storage on change
     useDebounceFn(() => {
-      const current = getStorageState()
-      if (current?.code !== editor.getValue()!) {
-        saveStorageState({ code: editor.getValue(), editorState: null })
-        emit('change', editor.getValue())
-      }
+      saveCodeAndEmitChange()
     }, 500)
   )
 
-  const current = getStorageState()
-  if (current?.code) {
-    editor.setValue(current.code)
-  }
+  loadCodeFromStorage()
 })
 
 const editorObserver = useResizeObserver(container, () => {
@@ -61,5 +68,5 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="container" style="height: calc(100% - 2.5rem)" />
+  <div ref="container" style="height: 100%" />
 </template>
