@@ -1,18 +1,18 @@
 from pydantic import BaseModel, field_validator
 
-from .validators import mac_address_validate
+from .validators import session_id_validate
 
 
 class UserTemplateData(BaseModel):
   epoch_time: int
-  mac_address: str
+  session_id: str
   template_state: dict | None = None
   template_base64: str | None = None
 
-  @field_validator("mac_address")
+  @field_validator("session_id")
   @classmethod
-  def mac_validate(cls, mac_address: str) -> str:
-    return mac_address_validate(mac_address)
+  def session_validate(cls, session_id: str) -> str:
+    return session_id_validate(session_id)
 
   class Config:
     json_schema_extra = {

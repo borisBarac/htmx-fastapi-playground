@@ -2,25 +2,14 @@ import re
 from lxml import etree
 
 
-def mac_address_validate(mac: str) -> str:
-  """
-  Validates the format of a MAC address string.
+def session_id_validate(id: str) -> str:
+  pattern = r".*[0-9].*[A-Za-z]"
+  match = re.match(pattern, id)
 
-  Parameters:
-      mac (str): The MAC address string to be validated.
-
-  Returns:
-      str: The validated MAC address string.
-
-  Raises:
-      ValueError: If the given string is not a valid MAC address.
-  """
-  pattern = r"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})|([0-9a-fA-F]{4}\\.[0-9a-fA-F]{4}\\.[0-9a-fA-F]{4})$"
-  if not re.match(pattern, mac):
-    raise ValueError("given string is not a mac address")
+  if len(id) > 10 and match:
+    return id
   else:
-    return mac
-
+    raise ValueError("Id does not meet the requirements")
 
 def html_validate(html_str: str) -> str:
   """

@@ -38,6 +38,7 @@ provide(providerReloadKey, lastRenderTime)
 
 <template>
   <NavBar class=".nav-bar" />
+  <p class="instruction">Just start typing, reload is automatic</p>
   <PannelContainer :items="items" class="full-fill">
     <template #item="{ id, panelType, codeLanguage }">
       <CodeEditor
@@ -60,6 +61,10 @@ provide(providerReloadKey, lastRenderTime)
 .full-fill {
   width: 100%;
   height: 100%;
+}
+
+.instruction {
+  padding: 0.2rem;
 }
 
 .nav-bar {

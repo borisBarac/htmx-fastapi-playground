@@ -22,7 +22,7 @@ const useStorageToGetUrl = (items: TupleArray): string => {
     })
   )
 
-  query['mac_address'] = getSessionId()
+  query['session_id'] = getSessionId()
   query['epoch_time'] = Math.floor(Date.now() / 1000).toString()
 
   return buldWebPathFor(IframeRoute(Endpoints.render, query))

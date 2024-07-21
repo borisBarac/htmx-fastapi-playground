@@ -1,15 +1,15 @@
 import unittest
 
-from src.validators import mac_address_validate, html_validate
+from src.validators import session_id_validate, html_validate
 
 
 class TestMACAddressValidation(unittest.TestCase):
   def test_valid_mac_address(self) -> None:
-    result = mac_address_validate("12:34:56:78:90:AB")
-    self.assertEqual(result, "12:34:56:78:90:AB")
+    result = session_id_validate("2313213weweweweqeqweqw22weqw")
+    self.assertEqual(result, "2313213weweweweqeqweqw22weqw")
 
   def test_invalid_mac_address(self) -> None:
-    self.assertRaises(ValueError, lambda: mac_address_validate("12:34:56:78:90:A"))
+    self.assertRaises(ValueError, lambda: session_id_validate("dasdsadsadsaUIUIUIUIUIUIUI"))
 
   def test_html_validate(self) -> None:
     v_str = "<!doctypehtml><title>Simple Page</title><h1>Hello, world!</h1>"
