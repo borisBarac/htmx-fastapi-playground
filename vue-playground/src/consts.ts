@@ -12,7 +12,7 @@ export enum ProviderEvents {
   Reload = 'ProviderEventsReloadEvent'
 }
 
-export const initJson: string = "{'fake': 'json'}"
+export const initJson: string = `{"websiteName": "My Website"}`
 export const initHtml: string = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +21,7 @@ export const initHtml: string = `<!DOCTYPE html>
   <title>My Simple Website</title>
 </head>
 <body>
-  <h1>Welcome to My Website</h1>
+  <h1>Welcome to {{websiteName}}.</h1>
   <p>This is a simple paragraph containing some introductory text.</p>
   <ul>
     <li>Item 1 in an unordered list</li>

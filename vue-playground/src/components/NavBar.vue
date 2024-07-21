@@ -8,6 +8,7 @@ import PythonIcon from './icons/PythonIcon.vue'
     <div class="iconPadding"><IconEcosystem /></div>
     <div class="iconPadding"><PythonIcon /></div>
     <h2>FastiApi / Jinja Template State Rendered Playground</h2>
+    <a href="https://jinja.palletsprojects.com/en/3.1.x/"> Jinja DOCS </a>
   </div>
 </template>
 
@@ -16,6 +17,15 @@ h2 {
   color: var(--neo-green);
   padding: 0.5cap;
   font-weight: bold;
+}
+
+a {
+  margin-left: auto;
+  padding: 0.5rem;
+}
+
+a {
+  color: var(--color-text-soft);
 }
 
 .iconPadding {

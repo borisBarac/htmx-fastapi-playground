@@ -17,7 +17,7 @@ defineProps<{
 
 <template>
   <Splitter class="container">
-    <SplitterPanel v-for="item in items" :key="item.id" class="panel">
+    <SplitterPanel v-for="item in items" :key="item.id" class="panel" :min-size="10">
       <slot name="item" v-bind="item" />
     </SplitterPanel>
   </Splitter>
@@ -25,7 +25,6 @@ defineProps<{
 
 <style scoped>
 .container {
-  background-color: aqua;
   display: flex;
   flex-direction: row;
   justify-content: center;

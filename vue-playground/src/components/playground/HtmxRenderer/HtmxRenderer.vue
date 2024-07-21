@@ -16,7 +16,8 @@ var deboundedUrl = ref(initUrl)
 var reloadCount = ref(0)
 
 const reloadIframe = () => {
-  if (props.editorItems?.length ?? 0 < 2) return
+  const len = props.editorItems?.length ?? 2
+  if (len < 2) return
   const newUrl = useStorageToGetUrl(props.editorItems!)
   deboundedUrl.value = newUrl
 }
@@ -26,24 +27,33 @@ watchDebounced(
   () => {
     reloadCount.value = reloadCount.value + 1
 
-    //TODO: Enamble hot reload
-    // reloadIframe()
+    reloadIframe()
   },
   { debounce: props.minSecDebounce * 1000, maxWait: props.maxSecDebounce * 1000 }
 )
 </script>
 
 <template>
-  <div class="fit-w-h">
+  <div class="container">
     <!-- <h2>{{ reloadCount }}</h2>
     <h2>{{ deboundedUrl }}</h2> -->
-    <iframe class="fit-w-h" :src="deboundedUrl" frameborder="0" scrolling="yes" />
+    <embed class="item" :src="deboundedUrl" scrolling="yes" />
   </div>
 </template>
 
 <style scoped>
-.fit-w-h {
+.container {
   width: 100%;
   height: 100%;
+}
+
+.item {
+  width: 100%;
+  height: 100%;
+}
+
+embed {
+  overflow: scroll !important;
+  pointer-events: none !important;
 }
 </style>

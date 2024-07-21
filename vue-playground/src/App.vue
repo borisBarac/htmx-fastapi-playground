@@ -2,9 +2,11 @@
 import PannelContainer from './components/playground/PannelContainer.vue'
 import CodeEditor from './components/playground/CodeEditor/CodeEditor.vue'
 import HtmxRenderer from './components/playground/HtmxRenderer/HtmxRenderer.vue'
+import NavBar from './components/NavBar.vue'
 import type { PanelItem } from './components/playground/PannelContainer.vue'
 import type { TupleArray } from './components/playground/HtmxRenderer/HtmxRenderer'
 import { ProviderEvents } from '@/consts'
+import { provide, ref } from 'vue'
 
 const items: PanelItem[] = [
   {
@@ -24,12 +26,18 @@ const items: PanelItem[] = [
   }
 ]
 
+// set up the Reload Render provider
 const renderItems: TupleArray = (
   items.filter((item) => item.panelType === 'editor' && item.codeLanguage) ?? []
 ).map((item) => [item.codeLanguage ?? 'json', item.id])
+
+const providerReloadKey = ProviderEvents.Reload
+const lastRenderTime = ref(Date.now())
+provide(providerReloadKey, lastRenderTime)
 </script>
 
 <template>
+  <NavBar class=".nav-bar" />
   <PannelContainer :items="items" class="full-fill">
     <template #item="{ id, panelType, codeLanguage }">
       <CodeEditor
@@ -39,7 +47,7 @@ const renderItems: TupleArray = (
       />
       <HtmxRenderer
         v-else
-        :urlEventKey="ProviderEvents.Reload"
+        :urlEventKey="providerReloadKey"
         :minSecDebounce="1"
         :maxSecDebounce="5"
         :editorItems="renderItems"
@@ -52,6 +60,9 @@ const renderItems: TupleArray = (
 .full-fill {
   width: 100%;
   height: 100%;
-  background-color: blueviolet;
+}
+
+.nav-bar {
+  padding-bottom: 0.5rem;
 }
 </style>

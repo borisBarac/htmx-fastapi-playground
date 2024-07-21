@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { inject, onMounted, onUnmounted, ref, type Ref } from 'vue'
 import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import * as monaco from 'monaco-editor'
 
 import { editorTheme, getWorker, initalEditorValue } from './CodeEditor'
-import type { CodeLanguages } from '@/consts'
+import { ProviderEvents, type CodeLanguages } from '@/consts'
 import { useEditorStorage } from '@/compositions/storage'
 
 interface Props {
@@ -19,6 +19,14 @@ let editor: monaco.editor.IStandaloneCodeEditor
 // https://github.com/vitejs/vite/discussions/1791
 self.MonacoEnvironment = { getWorker: getWorker }
 const emit = defineEmits<(e: 'change', payload: string) => void>()
+
+const reloadProviderRef = inject<Ref<number>>(ProviderEvents.Reload)
+
+const setReloadProvider = () => {
+  if (reloadProviderRef) {
+    reloadProviderRef.value = Date.now()
+  }
+}
 
 const { get: getStorageState, save: saveStorageState } = useEditorStorage(
   props.language,
@@ -36,6 +44,7 @@ const saveCodeAndEmitChange = () => {
   if (current?.code !== editor.getValue()!) {
     saveStorageState({ code: editor.getValue(), editorState: null })
     emit('change', editor.getValue())
+    setReloadProvider()
   }
 }
 
