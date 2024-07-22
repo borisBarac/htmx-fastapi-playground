@@ -23,6 +23,7 @@ def value_error_template(request: Request) -> HTMLResponse:
     request=request, name="Input_err.html", status_code=422
   )
 
+
 @app.exception_handler(Exception)
 async def handle_error(request: Request, exc: Exception) -> HTMLResponse:
   # if you get more then 1 custom exception move this to ERROR middleware
@@ -33,6 +34,7 @@ async def handle_error(request: Request, exc: Exception) -> HTMLResponse:
     status_code=500,
     detail="Internal Server Error, something went wrong!)",
   )
+
 
 @app.get("/", response_class=HTMLResponse)
 async def root_example(request: Request) -> HTMLResponse:

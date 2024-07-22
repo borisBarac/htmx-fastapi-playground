@@ -9,7 +9,9 @@ class TestMACAddressValidation(unittest.TestCase):
     self.assertEqual(result, "2313213weweweweqeqweqw22weqw")
 
   def test_invalid_mac_address(self) -> None:
-    self.assertRaises(ValueError, lambda: session_id_validate("dasdsadsadsaUIUIUIUIUIUIUI"))
+    self.assertRaises(
+      ValueError, lambda: session_id_validate("dasdsadsadsaUIUIUIUIUIUIUI")
+    )
 
   def test_html_validate(self) -> None:
     v_str = "<!doctypehtml><title>Simple Page</title><h1>Hello, world!</h1>"

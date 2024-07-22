@@ -11,6 +11,7 @@ def session_id_validate(id: str) -> str:
   else:
     raise ValueError("Id does not meet the requirements")
 
+
 def html_validate(html_str: str) -> str:
   """
   Validates and fixes the HTML string without throwing exceptions.
