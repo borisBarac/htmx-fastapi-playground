@@ -6,7 +6,14 @@ import NavBar from './components/NavBar.vue'
 import type { PanelItem } from './components/playground/PannelContainer.vue'
 import type { TupleArray } from './components/playground/HtmxRenderer/HtmxRenderer'
 import { ProviderEvents } from '@/consts'
-import { provide, ref } from 'vue'
+import { computed, provide, ref } from 'vue'
+import { useWindowSize } from '@vueuse/core'
+
+const { width, height } = useWindowSize()
+
+const screenSizeSupported = computed(
+  () => width.value > height.value * 1.2 && height.value > 0 && width.value > 560
+)
 
 const items: PanelItem[] = [
   {
@@ -38,23 +45,28 @@ provide(providerReloadKey, lastRenderTime)
 
 <template>
   <NavBar class=".nav-bar" />
-  <p class="instruction">Just start typing, reload is automatic</p>
-  <PannelContainer :items="items" class="full-fill">
-    <template #item="{ id, panelType, codeLanguage }">
-      <CodeEditor
-        v-if="codeLanguage && panelType === 'editor'"
-        :language="codeLanguage!"
-        :editorId="id"
-      />
-      <HtmxRenderer
-        v-else
-        :urlEventKey="providerReloadKey"
-        :minSecDebounce="1"
-        :maxSecDebounce="5"
-        :editorItems="renderItems"
-      />
-    </template>
-  </PannelContainer>
+  <div v-if="screenSizeSupported" class="full-fill">
+    <p class="instruction">Just start typing, reload is automatic</p>
+    <PannelContainer :items="items" class="full-fill">
+      <template #item="{ id, panelType, codeLanguage }">
+        <CodeEditor
+          v-if="codeLanguage && panelType === 'editor'"
+          :language="codeLanguage!"
+          :editorId="id"
+        />
+        <HtmxRenderer
+          v-else
+          :urlEventKey="providerReloadKey"
+          :minSecDebounce="1"
+          :maxSecDebounce="5"
+          :editorItems="renderItems"
+        />
+      </template>
+    </PannelContainer>
+  </div>
+  <div v-else class="full-fill">
+    <h3 class="not-supported">Sceeen not supported</h3>
+  </div>
 </template>
 
 <style scoped>
@@ -69,5 +81,11 @@ provide(providerReloadKey, lastRenderTime)
 
 .nav-bar {
   padding-bottom: 0.5rem;
+}
+
+.not-supported {
+  align-content: center;
+  text-align: center;
+  height: 100%;
 }
 </style>
