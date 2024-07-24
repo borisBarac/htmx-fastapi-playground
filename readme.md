@@ -8,7 +8,7 @@ Templates are rendered in HTMX with FastAPI, so no local mock are used, the stat
 
 
 ## Features:
-- Code editors with panel size chages
+- Code editors with autocomplete with panel size chages
 - Self reloading of data
 - Code is persisted in a the local storage
 
@@ -20,4 +20,8 @@ Templates are rendered in HTMX with FastAPI, so no local mock are used, the stat
 ## Teck
 - API: FastApi, Jinja templates, Htmx
 - FE: Vue
-- Deployments: Docker + Docker Compose
+- Deployments: Docker + Docker Compose<br>
+2 containers - 1 running unicorn server with API, 2nd building the static website and deploting to NGIX
+
+## Screen Shot
+![screenshot](./IMGs/screenshot.png)
